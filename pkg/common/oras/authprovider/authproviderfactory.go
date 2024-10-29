@@ -38,7 +38,7 @@ func Register(name string, factory AuthProviderFactory) {
 	if registered {
 		panic(fmt.Sprintf("auth provider factory named %s already registered", name))
 	}
-
+	fmt.Println(fmt.Sprintf("Register %s", name))
 	builtInAuthProviders[name] = factory
 }
 
@@ -63,6 +63,9 @@ func CreateAuthProviderFromConfig(authProviderConfig AuthProviderConfig) (AuthPr
 
 	providerNameStr := fmt.Sprintf("%s", authProviderName)
 
+	for k, _ := range builtInAuthProviders {
+		logrus.Infof("found builtInAuthProviders key %s", k)
+	}
 	authFactory, ok := builtInAuthProviders[providerNameStr]
 	if !ok {
 		return nil, errors.ErrorCodeAuthDenied.WithDetail(fmt.Sprintf("failed to find auth provider implementation with name %s", providerNameStr)).WithComponentType(errors.AuthProvider)

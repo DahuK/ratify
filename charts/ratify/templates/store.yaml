@@ -34,6 +34,11 @@ spec:
     authProvider:
       name: awsEcrBasic
     {{- end }}
+    {{- if .Values.oras.authProviders.alibabacloudAcrBasicEnabled }}
+    authProvider:
+      name: alibabacloudAcrBasic
+      clientID: {{ .Values.alibabacloudAcrConfig.instnaceId }}
+    {{- end }}
     {{- if .Values.oras.cache.enabled }}
     cacheEnabled: true
     ttl: {{ .Values.oras.cache.ttl }}
